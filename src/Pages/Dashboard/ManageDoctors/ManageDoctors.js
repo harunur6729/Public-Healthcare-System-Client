@@ -52,51 +52,74 @@ const ManageDoctors = () => {
     }
 
     return (
-        <div>
-            <h2 className="text-3xl">Manage Doctors: {doctors?.length}</h2>
-            <div className="overflow-x-auto">
+        <div className="p-6 shadow-lg rounded-lg">
+            <h2 className="text-3xl font-semibold mb-6">Manage Doctors: {doctors?.length}</h2>
+
+            <div className="overflow-x-auto nm_Inset p-2">
                 <table className="table w-full">
                     <thead>
-                        <tr>
-                            <th></th>
-                            <th>Avatar</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Specialty</th>
-                            <th>Action</th>
+                        <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                            <th className="py-3 px-6 text-left"></th>
+                            <th className="py-3 px-6 text-left">Avatar</th>
+                            <th className="py-3 px-6 text-left">Name</th>
+                            <th className="py-3 px-6 text-left">Email</th>
+                            <th className="py-3 px-6 text-left">Specialty</th>
+                            <th className="py-3 px-6 text-center">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-gray-600 text-sm font-light">
                         {
-                            doctors.map((doctor, i) => <tr key={doctor._id}>
-                                <th>{i + 1}</th>
-                                <td><div className="avatar">
-                                    <div className="w-24 rounded-full">
-                                        <img src={doctor.image} alt="" />
-                                    </div>
-                                </div></td>
-                                <td>{doctor.name}</td>
-                                <td>{doctor.email}</td>
-                                <td>{doctor.specialty}</td>
-                                <td>
-                                    <label onClick={() => setDeletingDoctor(doctor)} htmlFor="confirmation-modal" className="btn btn-sm btn-error">Delete</label>
-                                </td>
-                            </tr>)
+                            doctors.map((doctor, i) => (
+                                <tr key={doctor._id} className="border-b border-gray-200 hover:bg-gray-100">
+                                    <td className="py-3 px-6 text-left whitespace-nowrap">
+                                        <div className="flex items-center">
+                                            <span>{i + 1}</span>
+                                        </div>
+                                    </td>
+                                    <td className="py-3 px-6 text-left">
+                                        <div className="flex items-center">
+                                            <div className="avatar">
+                                                <div className="w-16 h-16 rounded-full overflow-hidden">
+                                                    <img src={doctor.image} alt={doctor.name} className="object-cover" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="py-3 px-6 text-left">
+                                        {doctor.name}
+                                    </td>
+                                    <td className="py-3 px-6 text-left">
+                                        {doctor.email}
+                                    </td>
+                                    <td className="py-3 px-6 text-left">
+                                        {doctor.specialty}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        <label
+                                            onClick={() => setDeletingDoctor(doctor)}
+                                            htmlFor="confirmation-modal"
+                                            className="btn btn-sm btn-error btn-outline"
+                                        >
+                                            Delete
+                                        </label>
+                                    </td>
+                                </tr>
+                            ))
                         }
                     </tbody>
                 </table>
             </div>
-            {
-                deletingDoctor && <ConfirmationModal
+
+            {deletingDoctor && (
+                <ConfirmationModal
                     title={`Are you sure you want to delete?`}
-                    message={`If you delete ${deletingDoctor.name}. It cannot be undone.`}
+                    message={`If you delete ${deletingDoctor.name}, this action cannot be undone.`}
                     successAction={handleDeleteDoctor}
                     successButtonName="Delete"
                     modalData={deletingDoctor}
                     closeModal={closeModal}
-                >
-                </ConfirmationModal>
-            }
+                />
+            )}
         </div>
     );
 };

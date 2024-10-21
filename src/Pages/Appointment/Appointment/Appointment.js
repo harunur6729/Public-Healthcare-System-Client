@@ -7,7 +7,7 @@ const Appointment = () => {
     return (
         <>
             <div className='lg:flex'>
-                <div className='basis-[25%] lg:sticky lg:top-0 self-start'>
+                <div className='basis-[25%] lg:sticky lg:top-16 self-start'>
                     <AppointmentBanner
                         selectedDate={selectedDate}
                         setSelectedDate={setSelectedDate}

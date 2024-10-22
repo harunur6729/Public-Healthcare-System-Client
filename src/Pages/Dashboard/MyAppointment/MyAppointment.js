@@ -22,8 +22,8 @@ const MyAppointment = () => {
     })
 
     return (
-        <div>
-            <h3 className="text-3xl mb-5">My Appointments</h3>
+        <div className='min-h-screen my-10 px-5'>
+            <h3 className="text-2xl mb-5 font-bold">My Appointments - {bookings?.length}</h3>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>

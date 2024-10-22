@@ -52,10 +52,10 @@ const ManageDoctors = () => {
     }
 
     return (
-        <div className="p-6 shadow-lg rounded-lg">
-            <h2 className="text-3xl font-semibold mb-6">Manage Doctors: {doctors?.length}</h2>
+        <div className="rounded-lg min-h-screen my-10 px-5">
+            <h2 className="text-2xl mb-5 font-bold">Manage Doctors - {doctors?.length}</h2>
 
-            <div className="overflow-x-auto nm_Inset p-2">
+            <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
                         <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">

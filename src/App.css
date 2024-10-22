@@ -39,3 +39,29 @@ body{
   box-shadow: inset -3px -3px 7px #ffffffb0,
     inset 3px 3px 5px rgba(94, 104, 121, 0.692);
 }
+
+
+
+
+/* Day picker:  */
+
+/* In your global CSS file */
+
+.custom-day-picker .rdp {
+  @apply bg-white;
+}
+
+.custom-day-picker .rdp-day_selected {
+  @apply bg-[#6C0EEC] text-white;
+  /* Custom color for selected days */
+}
+
+.custom-day-picker .rdp-day:hover {
+  @apply bg-[#6C0EEC] text-white;
+  /* Custom color on hover */
+}
+
+.custom-day-picker .rdp-nav_button {
+  @apply text-[#6C0EEC] hover:bg-[#6C0EEC] hover:text-white;
+  /* Nav button color */
+}

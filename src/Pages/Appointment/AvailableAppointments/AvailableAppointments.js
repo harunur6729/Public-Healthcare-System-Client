@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import React, { useState } from 'react';
-import Loading from '../../Shared/Loading/Loading';
+import loading from '../../../assets/docAppLoading.json';
 import BookingModal from '../BookingModal/BookingModal';
 import AppointmentOption from './AppointmentOption';
+import Lottie from 'lottie-react';
+// import Loading from '../../Shared/Loading/Loading';
 
 const AvailableAppointments = ({ selectedDate }) => {
     const [treatment, setTreatment] = useState(null);
@@ -17,8 +19,15 @@ const AvailableAppointments = ({ selectedDate }) => {
         }
     });
 
+    // if (isLoading) {
+    //     return <Loading></Loading>
+    // }
+
+
     if (isLoading) {
-        return <Loading></Loading>
+        return <div className='h-[500px] w-[500px] mx-auto'>
+            <Lottie animationData={loading} loop={true} />
+        </div>
     }
 
     return (

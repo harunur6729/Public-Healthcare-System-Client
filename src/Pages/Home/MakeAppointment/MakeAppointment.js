@@ -6,7 +6,7 @@ import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 const MakeAppointment = () => {
     return (
         <section
-            className="mt-40 bg-no-repeat bg-cover bg-center w-full grid items-center justify-center">
+            className="mt-20 bg-no-repeat bg-cover bg-center w-full grid items-center justify-center">
 
             <div className="container max-w-[1280px] rounded-lg"
                 style={{ backgroundImage: `url(${appointment})` }}

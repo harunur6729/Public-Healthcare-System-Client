@@ -12,9 +12,9 @@ const Home = () => {
             <About></About>
             <div className='px-10'>
                 <Banner></Banner>
+                <MakeAppointment></MakeAppointment>
                 <InfoCards></InfoCards>
                 <Services></Services>
-                <MakeAppointment></MakeAppointment>
                 <Testimonial></Testimonial>
             </div>
         </>

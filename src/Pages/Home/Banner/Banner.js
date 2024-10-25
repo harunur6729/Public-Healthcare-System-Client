@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 
 const Banner = () => {
     return (
-        <div className="hero py-10">
+        <div className="hero my-5">
             <div className="hero-content flex-col lg:flex-row-reverse">
-                <img src={birdemHospital} className="rounded-lg lg:w-1/2 nm_Birdem" alt="Doctor's Consultation Chair" />
-                <div className="text-center lg:text-left lg:w-1/2">
-                    <h1 className="text-4xl md:text-5xl font-bold text-blue-900">
+                <img src={birdemHospital} className="rounded-lg lg:w-1/2 nm_Birdem" alt="Doctor's Consultation Chair" ml-2 />
+                <div className="text-center lg:text-left lg:w-1/2 mr-2">
+                    <h1 className="text-4xl md:text-4xl font-bold text-blue-900">
                         Your Health, Our Priority
                     </h1>
                     <p className="py-6 text-gray-700">

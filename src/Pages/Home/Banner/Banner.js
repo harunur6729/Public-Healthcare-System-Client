@@ -1,13 +1,13 @@
 import React from 'react';
-import chair from '../../../assets/images/chair.png';
+import birdemHospital from '../../../assets/docAppImages/birdemHospitalLow.jpg';
 import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 import { Link } from 'react-router-dom';
 
 const Banner = () => {
     return (
         <div className="hero py-10">
-            <div className="hero-content flex-col lg:flex-row-reverse items-center">
-                <img src={chair} className="rounded-lg lg:w-1/2 shadow-2xl" alt="Doctor's Consultation Chair" />
+            <div className="hero-content flex-col lg:flex-row-reverse">
+                <img src={birdemHospital} className="rounded-lg lg:w-1/2 nm_Birdem" alt="Doctor's Consultation Chair" />
                 <div className="text-center lg:text-left lg:w-1/2">
                     <h1 className="text-4xl md:text-5xl font-bold text-blue-900">
                         Your Health, Our Priority

@@ -1,27 +1,35 @@
 import React from 'react';
-import doctor from '../../../assets/images/doctor.png'
-import appointment from '../../../assets/images/appointment.png'
+import doctor from '../../../assets/docAppImages/doctorImg2.png';
+import appointment from '../../../assets/images/appointment.png';
 import PrimaryButton from '../../../components/PrimaryButton/PrimaryButton';
 
 const MakeAppointment = () => {
     return (
-        <section className='mt-32'
-        style={{
-            background: `url(${appointment})`
-        }}
+        <section
+            className="mt-40 bg-no-repeat bg-cover bg-center w-full grid items-center justify-center">
+
+            <div className="container max-w-[1280px] rounded-lg"
+                style={{ backgroundImage: `url(${appointment})` }}
             >
-            <div className="hero">
-                <div className="hero-content flex-col lg:flex-row">
-                    <img src={doctor} alt="" className="-mt-32 hidden md:block lg:w-1/2 rounded-lg shadow-2xl" />
-                    <div>
-                        <h4 className='text-lg text-primary font-bold'>Appointment</h4>
-                        <h1 className=" text-white text-4xl font-bold">Make an appointment Today</h1>
-                        <p className="text-white py-6">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsumis that it has a more-or-less normal distribution of letters,as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page</p>
-                        <PrimaryButton>Appointment</PrimaryButton>
+                <div className="flex flex-col lg:flex-row items-center justify-between">
+                    <img
+                        src={doctor}
+                        className="-mt-32 hidden md:block lg:w-1/2"
+                        alt="Doctor"
+                    />
+                    <div className="lg:w-1/2 flex flex-col justify-center text-white mr-[5%]">
+                        <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+                            Schedule Your Appointment Today
+                        </h2>
+                        <p className="text-base lg:text-lg mb-6">
+                            Don’t wait to get the healthcare you deserve! Book an appointment with our expert doctors
+                            and receive personalized face-to-face consultations. Your health is our priority.
+                        </p>
+                        <PrimaryButton>Book Appointment</PrimaryButton>
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 };
 

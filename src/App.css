@@ -34,6 +34,18 @@ body{
   box-shadow: 7px 7px 13px #d7d7d7,
     -7px -7px 13px #e9e9e9;
 }
+.nm_CheckBox {
+  border-radius: 6px;
+  background: #e0e0e0;
+  box-shadow: 5px 5px 9px #cecece,
+    -5px -5px 9px #f2f2f2;
+}
+
+.nm_Birdem {
+  border-radius: 6px;
+  box-shadow: 5px 5px 8px #777777,
+    -5px -5px 8px #ffffff;
+}
 
 .nm_Inset {
   box-shadow: inset -3px -3px 7px #ffffffb0,

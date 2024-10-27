@@ -31,13 +31,15 @@ const InfoCards = () => {
     ]
 
     return (
-        <div className='grid mt-8 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-            {
-                cardData.map(card => <InfoCard
-                    key={card.id}
-                    card={card}
-                ></InfoCard>)
-            }
+        <div className='w-full grid justify-center'>
+            <div className='max-w-[1280px] grid mt-8 gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+                {
+                    cardData.map(card => <InfoCard
+                        key={card.id}
+                        card={card}
+                    ></InfoCard>)
+                }
+            </div>
         </div>
     );
 };

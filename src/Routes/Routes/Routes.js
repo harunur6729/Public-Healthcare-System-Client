@@ -5,7 +5,6 @@ import Main from "../../Layout/Main";
 import Appointment from "../../Pages/Appointment/Appointment/Appointment";
 import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
-import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
 import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 import Payment from "../../Pages/Dashboard/Payment/Payment";
@@ -16,17 +15,19 @@ import SignUp from "../../Pages/SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import About from "../../Pages/About/About";
+import ConversationAPI from '../../Pages/ConversationAPI/ConversationAPI';
 
 const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Home></Home>
+    },
     {
         path: '/',
         element: <Main></Main>,
         errorElement: <DisplayError></DisplayError>,
         children: [
-            {
-                path: '/',
-                element: <Home></Home>
-            },
+
             {
                 path: '/login',
                 element: <Login></Login>
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: '/about',
                 element: <About />
+            },
+            {
+                path: '/con',
+                element: <ConversationAPI />
             }
         ]
     },

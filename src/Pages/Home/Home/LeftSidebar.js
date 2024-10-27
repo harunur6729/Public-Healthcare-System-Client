@@ -1,43 +1,41 @@
 import React, { useContext } from 'react';
 import { BsFillHouseCheckFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import premiumImg from '../../../assets/docAppImages/doctorImg1.png'
-import imgCover from "../../../assets/docAppImages/doctorImg1.png"
+import premiumImg from '../../../assets/docAppImages/doctorImg1.png';
+import imgCover from "../../../assets/docAppImages/birdemHospitalLow.jpg";
+import docLogo1 from "../../../assets/docAppImages/doctorLogo1.jpeg";
+import docLogo2 from "../../../assets/docAppImages/doctorLogo2.jpg";
 import { AuthContext } from '../../../contexts/AuthProvider';
+import { FaUserCircle } from 'react-icons/fa';
+import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 const LeftSidebar = () => {
-
     const { user } = useContext(AuthContext);
     return (
-        <div className='basis-full lg:basis-1/4 self-start relative lg:sticky top-[76px] nm_Container'>
-            <div className=''>
+        <div className='basis-full lg:basis-1/4 self-start relative lg:sticky top-[76px]'>
+            <div className='nm_Container'>
                 <img src={imgCover} alt="cover" width="100%" />
                 <div className='px-5'>
-                    {/* {
-                        user?.photoURL ?
-                            <>
-                                <img className='w-20 bg-white rounded-full -mt-9 p-1 border-2' src={user?.photoURL} alt="profile" />
-                            </>
-                            :
-                            <>
-                                <FaUserCircle className='rounded-full -mt-4 p-1 border-2' color="#10a37f" size={50} />
-                            </>
-                    } */}
+                    {user?.photoURL ? (
+                        <img className='w-20 bg-primary rounded-full -mt-9 p-[1px] border-2 border-secondary' src={user?.photoURL} alt="profile" />
+                    ) : (
+                        <FaUserCircle className='rounded-full -mt-4 p-[1px] border-2 border-secondary text-primary' size={50} />
+                    )}
                     <h1 className='text-base font-semibold text-gray-700'>{user?.displayName}</h1>
-                    <h3 className='text-sm font-medium text-gray-500 my-1'>Web developer at DoReDo Service</h3>
+                    <h3 className='text-sm font-medium text-gray-500 my-1'>Healthcare Provider</h3>
                     <div className="mt-5">
                         <ul className="list-none space-y-2">
                             <li className="w-full text-sm flex justify-between">
-                                Your profile views
-                                <span className="text-[#10a37f]">52</span>
+                                Profile views
+                                <span className="text-primary">52</span>
                             </li>
                             <li className="w-full text-sm flex justify-between">
-                                Your post views
-                                <span className="text-[#10a37f]">810</span>
+                                Recent post views
+                                <span className="text-primary">810</span>
                             </li>
                             <li className="w-full text-sm flex justify-between">
-                                Your connections
-                                <span className="text-[#10a37f] mb-3">205</span>
+                                Patient connections
+                                <span className="text-primary mb-3">205</span>
                             </li>
                         </ul>
                     </div>
@@ -45,30 +43,28 @@ const LeftSidebar = () => {
 
                 <div className="flex items-center border border-gray-300">
                     <Link to='' className="flex items-center justify-center py-4 px-2 text-sm w-1/2">
-                        <BsFillHouseCheckFill className='mr-1' size={20} />
-                        My Items
+                        <BsFillHouseCheckFill className='mr-2 text-primary' size={20} />
+                        My item
                     </Link>
                     <Link to='' className="flex items-center justify-center py-4 px-2 border-l border-gray-300 text-sm w-1/2">
-                        {/* <MdOutlineWorkspacePremium className='mr-1' size={20} /> */}
-                        <img width={23} className='mr-1' src={premiumImg} alt="" />
+                        <MdOutlineWorkspacePremium className='mr-[3px] text-secondary' size={25} />
                         Try premium
                     </Link>
                 </div>
             </div>
 
-            {/* <div className="bg-white p-4 my-4 text-center text-xs">
+            <div className="nm_Container p-4 text-center text-xs mt-4">
                 <small className="float-right font-medium">Ad &middot; &middot; &middot;</small>
-                <p className="mt-2 mb-2">Master the 5 principles of web design</p>
+                <p className="mt-2 mb-2">Master the principles of patient-centered care</p>
                 <div className="flex justify-center">
-                    <img src="https://classyprice.com.bd/images/Xiaomi-Mi-10-Ultra.jpg" alt="img" className="w-20 rounded-full m-1" />
-                    <img src="https://raigadget.com/wp-content/uploads/2021/07/Untitled-design-2-51.png" alt="img" className="w-20 rounded-full m-1" />
+                    <img src={docLogo1} alt="Healthcare Logo 1" className="w-20 rounded-full m-1" />
+                    <img src={docLogo2} alt="Healthcare Logo 2" className="w-20 rounded-full m-1" />
                 </div>
-                <b className="block mt-2 font-medium">Brand and Demand in Xiaomi</b>
-                <Link to='#' className="inline-block text-[#10a37f] border border-[#10a37f] rounded-full py-1 px-4 mt-3 font-medium hover:underline">
+                <b className="block mt-2 font-medium">Leading Innovations in Healthcare</b>
+                <Link to='#' className="inline-block text-primary border border-primary rounded-full py-1 px-4 mt-3 font-medium hover:underline">
                     Learn More
                 </Link>
-            </div> */}
-
+            </div>
         </div>
     );
 };

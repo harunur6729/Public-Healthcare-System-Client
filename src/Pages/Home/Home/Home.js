@@ -11,9 +11,8 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import homeCSS from '../Home/Home.module.css'
 import { BsCameraVideoFill, BsFillCameraFill, BsSendCheck } from "react-icons/bs";
-import { AiFillCaretDown, AiFillDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import { FaUserCircle } from 'react-icons/fa';
-import docImage from "../../../assets/docAppImages/doctorImg1.png"
 import { useContext, useEffect, useState } from 'react';
 import Navbar from '../../Shared/Navbar/Navbar';
 import Lottie from 'lottie-react';

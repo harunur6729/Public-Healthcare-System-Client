@@ -3,7 +3,7 @@ import docImage from "../../assets/docAppImages/doctorImg1.png";
 import doctorLogo1 from "../../assets/docAppImages/doctorLogo1.jpeg";
 import doctorLogo2 from "../../assets/docAppImages/doctorLogo2.jpg";
 // import { CiPlay1 } from "react-icons/ci";
-import { IoIosSend } from "react-icons/io";
+// import { IoIosSend } from "react-icons/io";
 import Banner from '../Home/Banner/Banner';
 import MakeAppointment from '../Home/MakeAppointment/MakeAppointment';
 import InfoCards from '../Home/InfoCards/InfoCards';
@@ -97,7 +97,7 @@ const About = () => {
                             }
                             <button className='flex justify-end items-center rounded-full'>
                                 <span className='font-bold text-[18px] mr-1 text-blue-900 hover:text-blue-700'>Send</span>
-                                <IoIosSend className='w-7 h-7 text-blue-900 hover:text-blue-700' />
+                                {/* <IoIosSend className='w-7 h-7 text-blue-900 hover:text-blue-700' /> */}
                             </button>
                         </div>
                     </div>

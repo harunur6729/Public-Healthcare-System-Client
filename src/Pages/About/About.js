@@ -2,7 +2,7 @@ import React from 'react';
 import docImage from "../../assets/docAppImages/doctorImg1.png";
 import doctorLogo1 from "../../assets/docAppImages/doctorLogo1.jpeg";
 import doctorLogo2 from "../../assets/docAppImages/doctorLogo2.jpg";
-import { CiPlay1 } from "react-icons/ci";
+// import { CiPlay1 } from "react-icons/ci";
 import { IoIosSend } from "react-icons/io";
 import Banner from '../Home/Banner/Banner';
 import MakeAppointment from '../Home/MakeAppointment/MakeAppointment';
@@ -62,7 +62,7 @@ const About = () => {
                             <button className="bg-[#4444d8] hover:bg-[#5f5ffa] transition duration-300 ease-in-out mr-4 px-4 py-2 rounded-full text-[12px] text-white">Discover Services</button>
                             <button className="flex items-center text-sm bg-[#F9F9F9] hover:text-white hover:bg-blue-900 transition duration-300 ease-in-out py-2 px-4 rounded-full">
                                 <span className="flex items-center justify-center mr-2">
-                                    <CiPlay1 className='w-5 h-5' />
+                                    {/* <CiPlay1 className='w-5 h-5' /> */}
                                     <i className="fa-solid fa-play absolute bg-transparent text-white"></i>
                                 </span>
                                 Watch our story

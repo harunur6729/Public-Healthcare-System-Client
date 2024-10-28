@@ -6,11 +6,9 @@ import router from './Routes/Routes/Routes';
 
 function App() {
   return (
-    <div className='w-full grid justify-center'>
-      <div className='max-w-[1280px]'>
-        <RouterProvider router={router}></RouterProvider>
-        <Toaster></Toaster>
-      </div>
+    <div className='mx-auto'>
+      <RouterProvider router={router}></RouterProvider>
+      <Toaster></Toaster>
     </div>
   );
 }

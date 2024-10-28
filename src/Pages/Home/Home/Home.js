@@ -156,134 +156,136 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <div className='flex justify-between flex-wrap text-gray-700 py-3 px-[3%] lg:px-[6%] bg-[#E2E2E2]'>
-                {/* <!-- left sidebar  --> */}
-                <LeftSidebar />
+            <div className='w-full grid justify-center'>
+                <div className='flex justify-between flex-wrap text-gray-700 py-3 px-[3%] lg:px-[6%] bg-[#E2E2E2] max-w-[1280px]'>
+                    {/* <!-- left sidebar  --> */}
+                    <LeftSidebar />
 
-                {/* <!-- middle  --> */}
-                <div className='basis-full lg:basis-[47%]'>
+                    {/* <!-- middle  --> */}
+                    <div className='basis-full lg:basis-[47%]'>
 
-                    <div className='bg-[#E2E2E2] nm_Container p-2'>
-                        {
-                            isAdmin && (
-                                <form onSubmit={handleSubmit(handleItem)}>
-                                    <div className={homeCSS.createPostInput}>
-                                        {
-                                            user?.photoURL ? (
-                                                <img
-                                                    className="w-[35px] rounded-full mr-[10px] border-2 p-1"
-                                                    src={user.photoURL}
-                                                    alt="user"
-                                                />
-                                            ) : (
-                                                <FaUserCircle
-                                                    className="w-[35px] rounded-full mr-[10px] border-2"
-                                                    color="#5F5FFA"
-                                                    size={30}
-                                                />
-                                            )
+                        <div className='bg-[#E2E2E2] nm_Container p-2'>
+                            {
+                                isAdmin && (
+                                    <form onSubmit={handleSubmit(handleItem)}>
+                                        <div className={homeCSS.createPostInput}>
+                                            {
+                                                user?.photoURL ? (
+                                                    <img
+                                                        className="w-[35px] rounded-full mr-[10px] border-2 p-1"
+                                                        src={user.photoURL}
+                                                        alt="user"
+                                                    />
+                                                ) : (
+                                                    <FaUserCircle
+                                                        className="w-[35px] rounded-full mr-[10px] border-2"
+                                                        color="#5F5FFA"
+                                                        size={30}
+                                                    />
+                                                )
 
-                                        }
-                                        {
-                                            image ? (
-                                                <>
+                                            }
+                                            {
+                                                image ? (
+                                                    <>
+                                                        <textarea
+                                                            rows="5"
+                                                            placeholder="Write a post details"
+                                                            {...register("description")}
+                                                            required
+                                                        ></textarea>
+                                                        <div className="flex items-center ml-2 bg-[#E2E2E2]">
+                                                            <img src={image} className="w-36 lg:w-44 rounded-lg" alt={fileName} />
+                                                            {/* Optional file details */}
+                                                            {/* <p>File Name : {fileName} File Size : {fileSize} bytes</p> */}
+                                                        </div>
+                                                    </>
+                                                ) : (
                                                     <textarea
-                                                        rows="5"
+                                                        rows="2"
+                                                        className="bg-[#E2E2E2]"
                                                         placeholder="Write a post details"
                                                         {...register("description")}
                                                         required
                                                     ></textarea>
-                                                    <div className="flex items-center ml-2 bg-[#E2E2E2]">
-                                                        <img src={image} className="w-36 lg:w-44 rounded-lg" alt={fileName} />
-                                                        {/* Optional file details */}
-                                                        {/* <p>File Name : {fileName} File Size : {fileSize} bytes</p> */}
-                                                    </div>
-                                                </>
-                                            ) : (
-                                                <textarea
-                                                    rows="2"
-                                                    className="bg-[#E2E2E2]"
-                                                    placeholder="Write a post details"
-                                                    {...register("description")}
-                                                    required
-                                                ></textarea>
-                                            )
-                                        }
-                                    </div>
-                                    <div className={`${homeCSS.createPostLinks}`}>
-                                        <li>
-                                            <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100"
-                                                onChange={(event) => {
-                                                    const file = event.target.files[0];
+                                                )
+                                            }
+                                        </div>
+                                        <div className={`${homeCSS.createPostLinks}`}>
+                                            <li>
+                                                <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100"
+                                                    onChange={(event) => {
+                                                        const file = event.target.files[0];
 
-                                                    if (file) {
-                                                        const reader = new FileReader();
-                                                        // console.log(reader);
-                                                        reader.onload = () => {
-                                                            setImage(reader.result);
-                                                        };
-                                                        reader.readAsDataURL(file);
-                                                    }
+                                                        if (file) {
+                                                            const reader = new FileReader();
+                                                            // console.log(reader);
+                                                            reader.onload = () => {
+                                                                setImage(reader.result);
+                                                            };
+                                                            reader.readAsDataURL(file);
+                                                        }
 
 
-                                                    // if (file) {
-                                                    //     setImage(URL.createObjectURL(file))
-                                                    //     setFileName(file.name)
-                                                    //     setFileSize(file.size)
-                                                    // }
+                                                        // if (file) {
+                                                        //     setImage(URL.createObjectURL(file))
+                                                        //     setFileName(file.name)
+                                                        //     setFileSize(file.size)
+                                                        // }
+                                                    }}>
+                                                    <BsFillCameraFill size={20} />
+                                                    <span className='ml-2'>Photo</span>
+                                                    <input id="dropzone-file" type="file" hidden {...register("image")} required />
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100">
+                                                    <BsCameraVideoFill size={20} />
+                                                    <span className='ml-2'>Video</span>
+                                                    {<input id="dropzone-file" type="file" className="hidden"
+                                                    /* {...register("video")} required */
+                                                    />}
+                                                </label>
+                                            </li>
+                                            <li className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100"
+                                                onClick={() => {
+                                                    setFileName("No selected file");
+                                                    setImage(null);
                                                 }}>
-                                                <BsFillCameraFill size={20} />
-                                                <span className='ml-2'>Photo</span>
-                                                <input id="dropzone-file" type="file" hidden {...register("image")} required />
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100">
-                                                <BsCameraVideoFill size={20} />
-                                                <span className='ml-2'>Video</span>
-                                                {<input id="dropzone-file" type="file" className="hidden"
-                                                /* {...register("video")} required */
-                                                />}
-                                            </label>
-                                        </li>
-                                        <li className="flex items-center justify-center w-full h-full  cursor-pointer hover:bg-gray-100"
-                                            onClick={() => {
-                                                setFileName("No selected file");
-                                                setImage(null);
-                                            }}>
-                                            <AiFillDelete size={20} />
-                                            <span className='ml-2'>Delete</span>
-                                        </li>
+                                                <AiFillDelete size={20} />
+                                                <span className='ml-2'>Delete</span>
+                                            </li>
 
-                                        {isPosting ? (
-                                            <div className='basis-[25%] flex justify-center items-center h-[40px]'>
-                                                <Lottie animationData={loadingJson} loop={true} />
-                                            </div>
-                                        ) : (
-                                            <button
-                                                className='basis-[25%] flex justify-center items-center h-[40px] bg-gradient-to-r from-primary to-secondary text-white'
-                                                type='submit'
-                                            >
-                                                <BsSendCheck size={20} />
-                                            </button>
-                                        )}
+                                            {isPosting ? (
+                                                <div className='basis-[25%] flex justify-center items-center h-[40px]'>
+                                                    <Lottie animationData={loadingJson} loop={true} />
+                                                </div>
+                                            ) : (
+                                                <button
+                                                    className='basis-[25%] flex justify-center items-center h-[40px] bg-gradient-to-r from-primary to-secondary text-white'
+                                                    type='submit'
+                                                >
+                                                    <BsSendCheck size={20} />
+                                                </button>
+                                            )}
 
-                                    </div>
-                                </form>
-                            )
+                                        </div>
+                                    </form>
+                                )
+                            }
+                        </div>
+
+                        {/* content  */}
+                        {
+                            postInfo.map(data => <PostCard key={data._id} data={data} userInfo={userInfo} />)
                         }
+
                     </div>
 
-                    {/* content  */}
-                    {
-                        postInfo.map(data => <PostCard key={data._id} data={data} userInfo={userInfo} />)
-                    }
-
-                </div>
-
-                {/* <!-- rightSidebar  --> */}
-                <RightSidebar />
-            </div >
+                    {/* <!-- rightSidebar  --> */}
+                    <RightSidebar />
+                </div >
+            </div>
         </>
     );
 };

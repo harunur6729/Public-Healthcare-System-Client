@@ -1,9 +1,3 @@
-// import Banner from '../Banner/Banner';
-// import InfoCards from '../InfoCards/InfoCards';
-// import MakeAppointment from '../MakeAppointment/MakeAppointment';
-// import Services from '../Services/Services';
-// import Testimonial from '../Testimonial/Testimonial';
-// import About from '../../About/About';
 import LeftSidebar from './LeftSidebar';
 import RightSidebar from './RightSidebar';
 import { AuthContext } from './../../../contexts/AuthProvider';
@@ -155,7 +149,7 @@ const Home = () => {
     return (
         <>
             <Navbar />
-            <div className='w-full grid justify-center'>
+            <div className='w-full min-h-screen grid justify-center'>
                 <div className='flex justify-between flex-wrap text-gray-700 py-3 px-[3%] lg:px-[6%] bg-[#E2E2E2] max-w-[1280px]'>
                     {/* <!-- left sidebar  --> */}
                     <LeftSidebar />

@@ -11,10 +11,6 @@ import { MdOutlineWorkspacePremium } from "react-icons/md";
 const LeftSidebar = () => {
     const { user } = useContext(AuthContext);
 
-    console.log(user, "User info");
-
-    console.log(user?._id, "User id");
-
     return (
         <div className='basis-full lg:basis-1/4 self-start relative lg:sticky top-[76px]'>
             <div className='nm_Container'>
@@ -65,8 +61,6 @@ const LeftSidebar = () => {
                     <img src={docLogo2} alt="Healthcare Logo 2" className="w-20 rounded-full m-1" />
                 </div>
                 <b className="block mt-2 font-medium">Leading Innovations in Healthcare</b>
-
-
 
                 <Link to='#' className="inline-block text-primary border border-primary rounded-full py-1 px-4 mt-3 font-medium hover:underline">
                     Learn More

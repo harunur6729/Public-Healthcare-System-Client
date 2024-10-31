@@ -37,9 +37,13 @@ const PostCard = (data) => {
 
 
             <p className='text-sm mb-[14px]'>{description}</p>
-            <img className='mb-3' src={image} alt="Post img" width="100%" />
+            {
+                image &&
+                <img className='mb-3' src={image} alt="Post img" width="100%" />
+            }
 
 
+            {/* Just for show off : */}
             <div className='flex justify-between items-center flex-wrap border-b border-gray-300 text-xs pb-[6px]'>
                 <div className='flex items-center'>
                     <BiLike />
@@ -51,6 +55,8 @@ const PostCard = (data) => {
                 </div>
             </div>
 
+
+            {/* Just for show off : */}
             <div className='flex items-center justify-around py-[15px]'>
                 <div className='flex items-center'>
                     <BiLike size={18} /><span className='text-sm ml-1'>Like</span>

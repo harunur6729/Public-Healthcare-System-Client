@@ -1,21 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../../Shared/Loading/Loading';
+import { AuthContext } from '../../../contexts/AuthProvider';
+import useToken from '../../../hooks/useToken';
 
 const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     const imageHostKey = process.env.REACT_APP_imgbb_key;
-
     const navigate = useNavigate();
+    const { createUser, updateUser } = useContext(AuthContext);
+    const [signUpError, setSignUPError] = useState('');
+    const [createdUserEmail, setCreatedUserEmail] = useState('')
+    const [token] = useToken(createdUserEmail);
 
     const { data: specialties, isLoading } = useQuery({
         queryKey: ['specialty'],
         queryFn: async () => {
-            const res = await fetch('https://doc-app-server.vercel.app/appointmentSpecialty');
+            const res = await fetch('http://localhost:5000/appointmentSpecialty');
             const data = await res.json();
             return data;
         }
@@ -42,7 +46,7 @@ const AddDoctor = () => {
                     }
 
                     // save doctor information to the database
-                    fetch('https://doc-app-server.vercel.app/doctors', {
+                    fetch('http://localhost:5000/doctors', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
@@ -59,6 +63,49 @@ const AddDoctor = () => {
                 }
             })
     }
+
+
+
+
+    const handleSignUp = (data) => {
+        setSignUPError('');
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                toast('User Created Successfully.')
+                const userInfo = {
+                    displayName: data.name
+                }
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(data.name, data.email);
+                    })
+                    .catch(err => console.log(err));
+            })
+            .catch(error => {
+                console.log(error)
+                setSignUPError(error.message)
+            });
+    }
+
+
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(email);
+            })
+    }
+
+
 
     if (isLoading) {
         return <Loading></Loading>

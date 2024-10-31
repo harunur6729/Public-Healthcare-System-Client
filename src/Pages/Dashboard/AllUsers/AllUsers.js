@@ -6,14 +6,30 @@ const AllUsers = () => {
   const { data: users = [], refetch } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const res = await fetch('https://doc-app-server.vercel.app/users');
+      const res = await fetch('http://localhost:5000/users');
       const data = await res.json();
       return data;
     }
   });
 
   const handleMakeAdmin = id => {
-    fetch(`https://doc-app-server.vercel.app/users/admin/${id}`, {
+    fetch(`http://localhost:5000/users/admin/${id}`, {
+      method: 'PUT',
+      headers: {
+        authorization: `bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.modifiedCount > 0) {
+          toast.success('Make admin successful.')
+          refetch();
+        }
+      })
+  }
+
+  const handleMakeDoctor = id => {
+    fetch(`http://localhost:5000/users/doctor/${id}`, {
       method: 'PUT',
       headers: {
         authorization: `bearer ${localStorage.getItem('accessToken')}`
@@ -39,6 +55,7 @@ const AllUsers = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Admin</th>
+              <th>Doctor</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -48,7 +65,11 @@ const AllUsers = () => {
                 <th>{i + 1}</th>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+
                 <td>{user?.role !== 'admin' && <button onClick={() => handleMakeAdmin(user._id)} className='btn btn-xs btn-primary'>Make Admin</button>}</td>
+
+                <td>{user?.role !== 'doctor' && <button onClick={() => handleMakeDoctor(user._id)} className='btn btn-xs btn-primary'>Make Doctor</button>}</td>
+
                 <td><button className='btn btn-xs btn-danger'>Delete</button></td>
               </tr>)
             }

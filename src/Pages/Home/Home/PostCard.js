@@ -3,10 +3,12 @@ import { BiCommentDetail, BiLike } from 'react-icons/bi';
 import { BsEmojiHeartEyes, BsSend } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
 import { RiShareForwardLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 
 const PostCard = (data) => {
 
-    const { image, profileImg, userName, description, userEmail, postTime } = data.data;
+    // console.log("data", data);
+    const { _id, image, profileImg, userName, description, userEmail, postTime } = data.data;
 
     return (
         <div className={`mt-4 pt-5 px-5 rounded-md bg-[#E2E2E2] nm_Container`}>
@@ -27,6 +29,10 @@ const PostCard = (data) => {
                     <small className='text-xs block'>{userEmail}</small>
                     <small className='text-xs block'>{postTime}</small>
                 </div>
+
+                <button className="ml-5">
+                    <Link to={`/conversations/${_id}`}>Message</Link>
+                </button>
             </div>
 
 

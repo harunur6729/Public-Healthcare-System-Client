@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -13,9 +13,11 @@ const SignUp = () => {
     const [token] = useToken(createdUserEmail);
     const navigate = useNavigate();
 
-    if (token) {
-        navigate('/');
-    }
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, [token, navigate]);
 
     const handleSignUp = (data) => {
         setSignUPError('');

@@ -15,7 +15,8 @@ import SignUp from "../../Pages/SignUp/SignUp";
 import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import About from "../../Pages/About/About";
-import ConversationAPI from '../../Pages/ConversationAPI/ConversationAPI';
+import Conversations from '../../Pages/conversations/Conversations';
+import ConversationPage from '../../Pages/conversations/ConversationPage';
 
 const router = createBrowserRouter([
     {
@@ -38,16 +39,28 @@ const router = createBrowserRouter([
             },
             {
                 path: '/appointment',
-                element: <Appointment></Appointment>
+                element: <PrivateRoute><Appointment /></PrivateRoute>
             },
             {
                 path: '/about',
                 element: <About />
             },
             {
-                path: '/con',
-                element: <ConversationAPI />
-            }
+                path: "/conversations/:postId",
+                element: (
+                    <PrivateRoute>
+                        <Conversations />
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/conversations",
+                element: (
+                    <PrivateRoute>
+                        <ConversationPage />
+                    </PrivateRoute>
+                )
+            },
         ]
     },
     {

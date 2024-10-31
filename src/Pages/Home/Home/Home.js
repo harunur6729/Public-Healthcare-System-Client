@@ -23,6 +23,7 @@ const Home = () => {
     console.log(isAdmin);
 
     console.log(user?.email, "user");
+    console.log(user?._id, "user");
 
     const [image, setImage] = useState(null)
     const [fileName, setFileName] = useState("No selected file")

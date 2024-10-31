@@ -33,7 +33,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/posts')
+        fetch('https://doc-app-server.vercel.app/posts')
             .then(res => res.json())
             .then(data => {
                 setPostInfo(data)
@@ -44,7 +44,7 @@ const Home = () => {
     const [userInfo, setUserInfo] = useState([]);
 
     // useEffect(() => {
-    //     fetch('http://localhost:5000/users')
+    //     fetch('https://doc-app-server.vercel.app/users')
     //         .then(res => res.json())
     //         .then(data => {
     //             setUserInfo(data)
@@ -96,7 +96,7 @@ const Home = () => {
                         postTime: formattedDateTime,
                     }
 
-                    fetch(`http://localhost:5000/posts`, {
+                    fetch(`https://doc-app-server.vercel.app/posts`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',

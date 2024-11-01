@@ -17,6 +17,8 @@ import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import About from "../../Pages/About/About";
 import Conversations from '../../Pages/conversations/Conversations';
 import ConversationPage from '../../Pages/conversations/ConversationPage';
+import Dashboard from '../../Pages/Dashboard/Dashboard/Dashboard';
+import DoctorPosts from '../../Pages/Dashboard/DoctorPosts/DoctorPosts';
 
 const router = createBrowserRouter([
     {
@@ -65,24 +67,32 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-        errorElement: <DisplayError></DisplayError>,
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        errorElement: <DisplayError />,
         children: [
             {
                 path: '/dashboard',
+                element: <Dashboard />
+            },
+            {
+                path: '/dashboard/myAppointment',
                 element: <MyAppointment></MyAppointment>
             },
             {
-                path: '/dashboard/allusers',
-                element: <AdminRoute><AllUsers></AllUsers></AdminRoute>
+                path: '/dashboard/allUsers',
+                element: <AdminRoute><AllUsers /></AdminRoute>
             },
             {
-                path: '/dashboard/adddoctor',
-                element: <AdminRoute><AddDoctor></AddDoctor></AdminRoute>
+                path: '/dashboard/addDoctor',
+                element: <AdminRoute><AddDoctor /></AdminRoute>
             },
             {
-                path: '/dashboard/managedoctors',
-                element: <AdminRoute><ManageDoctors></ManageDoctors></AdminRoute>
+                path: '/dashboard/manageDoctors',
+                element: <AdminRoute><ManageDoctors /></AdminRoute>
+            },
+            {
+                path: '/dashboard/doctorPosts',
+                element: <PrivateRoute><DoctorPosts /></PrivateRoute>
             },
             {
                 path: '/dashboard/payment/:id',

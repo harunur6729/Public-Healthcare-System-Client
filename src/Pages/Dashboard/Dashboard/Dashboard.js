@@ -2,8 +2,8 @@ import React from 'react';
 
 const Dashboard = () => {
     return (
-        <div>
-            <h2>Coming Soooooooon</h2>
+        <div className='min-h-screen content-center grid justify-center'>
+            <p >Welcome to DAshboard...</p>
         </div>
     );
 };

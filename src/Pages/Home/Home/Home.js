@@ -13,14 +13,19 @@ import Lottie from 'lottie-react';
 import loadingJson from "../../../assets/docAppLoading.json";
 import PostCard from './PostCard';
 import useAdmin from '../../../hooks/useAdmin';
+import useDoctor from '../../../hooks/useDoctor';
 
 const Home = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const { user, setLoading } = useContext(AuthContext);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { user } = useContext(AuthContext);
     const [isAdmin] = useAdmin(user?.email);
+    const [isDoctor] = useDoctor(user?.email);
     const [image, setImage] = useState(null);
     const [postInfo, setPostInfo] = useState([]);
     const [isPosting, setIsPosting] = useState(false);
+
+
+    console.log(isDoctor, "isDoctor ?");
 
     useEffect(() => {
         fetch('http://localhost:5000/posts')
@@ -77,8 +82,11 @@ const Home = () => {
             .then(data => {
                 if (data.acknowledged) {
                     toast.success("Post added successfully", { duration: 4000, position: 'top-center' });
+
+                    setPostInfo([itemInfo, ...postInfo]); // Add the new post to the postInfo state
+                    reset(); // Clear the form input
+                    setImage(null); // Reset the selected image
                     setIsPosting(false);
-                    window.location.reload();
                 } else {
                     handleError("Failed to add data");
                 }
@@ -100,73 +108,75 @@ const Home = () => {
                     <LeftSidebar />
 
                     <div className='basis-full lg:basis-[47%]'>
-                        {isAdmin && (
-                            <form className='p-2 nm_Container' onSubmit={handleSubmit(handleItem)}>
-                                <div className={homeCSS.createPostInput}>
-                                    {user?.photoURL ? (
-                                        <img
-                                            className="w-[35px] rounded-full mr-[10px] border-2 p-1"
-                                            src={user.photoURL}
-                                            alt="user"
-                                        />
-                                    ) : (
-                                        <FaUserCircle className="w-[35px] rounded-full mr-[10px] border-2" color="#5F5FFA" size={30} />
-                                    )}
+                        {
+                            (isDoctor || isAdmin) && (
+                                <form className='p-2 nm_Container' onSubmit={handleSubmit(handleItem)}>
+                                    <div className={homeCSS.createPostInput}>
+                                        {user?.photoURL ? (
+                                            <img
+                                                className="w-[35px] rounded-full mr-[10px] border-2 p-1"
+                                                src={user.photoURL}
+                                                alt="user"
+                                            />
+                                        ) : (
+                                            <FaUserCircle className="w-[35px] rounded-full mr-[10px] border-2" color="#5F5FFA" size={30} />
+                                        )}
 
-                                    <textarea
-                                        rows={image ? "5" : "2"}
-                                        placeholder="Write a post details"
-                                        className="bg-[#E2E2E2]"
-                                        {...register("description")}
-                                        required
-                                    ></textarea>
+                                        <textarea
+                                            rows={image ? "5" : "2"}
+                                            placeholder="Write a post details"
+                                            className="bg-[#E2E2E2]"
+                                            {...register("description")}
+                                            required
+                                        ></textarea>
 
-                                    {image && (
-                                        <div className="flex items-center ml-2 bg-[#E2E2E2]">
-                                            <img src={image} className="w-36 lg:w-44 rounded-lg" alt="Selected" />
-                                        </div>
-                                    )}
-                                </div>
-                                <div className={`${homeCSS.createPostLinks}`}>
-                                    <li>
-                                        <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100"
-                                            onChange={(event) => {
-                                                const file = event.target.files[0];
-                                                if (file) {
-                                                    const reader = new FileReader();
-                                                    reader.onload = () => setImage(reader.result);
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            }}>
-                                            <BsFillCameraFill size={20} />
-                                            <span className='ml-2'>Photo</span>
-                                            <input id="dropzone-file" type="file" hidden {...register("image")} />
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100">
-                                            <BsCameraVideoFill size={20} />
-                                            <span className='ml-2'>Video</span>
-                                            <input id="dropzone-file" type="file" className="hidden" />
-                                        </label>
-                                    </li>
-                                    <li className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100"
-                                        onClick={() => setImage(null)}>
-                                        <AiFillDelete size={20} />
-                                        <span className='ml-2'>Delete</span>
-                                    </li>
-                                    {isPosting ? (
-                                        <div className='basis-[25%] flex justify-center items-center h-[40px]'>
-                                            <Lottie animationData={loadingJson} loop={true} />
-                                        </div>
-                                    ) : (
-                                        <button className='basis-[25%] flex justify-center items-center h-[40px] bg-gradient-to-r from-primary to-secondary text-white' type='submit'>
-                                            <BsSendCheck size={20} />
-                                        </button>
-                                    )}
-                                </div>
-                            </form>
-                        )}
+                                        {image && (
+                                            <div className="flex items-center ml-2 bg-[#E2E2E2]">
+                                                <img src={image} className="w-36 lg:w-44 rounded-lg" alt="Selected" />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className={`${homeCSS.createPostLinks}`}>
+                                        <li>
+                                            <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100"
+                                                onChange={(event) => {
+                                                    const file = event.target.files[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onload = () => setImage(reader.result);
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }}>
+                                                <BsFillCameraFill size={20} />
+                                                <span className='ml-2'>Photo</span>
+                                                <input id="dropzone-file" type="file" hidden {...register("image")} />
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label htmlFor="dropzone-file" className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100">
+                                                <BsCameraVideoFill size={20} />
+                                                <span className='ml-2'>Video</span>
+                                                <input id="dropzone-file" type="file" className="hidden" />
+                                            </label>
+                                        </li>
+                                        <li className="flex items-center justify-center w-full h-full cursor-pointer hover:bg-gray-100"
+                                            onClick={() => setImage(null)}>
+                                            <AiFillDelete size={20} />
+                                            <span className='ml-2'>Delete</span>
+                                        </li>
+                                        {isPosting ? (
+                                            <div className='basis-[25%] flex justify-center items-center h-[40px]'>
+                                                <Lottie animationData={loadingJson} loop={true} />
+                                            </div>
+                                        ) : (
+                                            <button className='basis-[25%] flex justify-center items-center h-[40px] bg-gradient-to-r from-primary to-secondary text-white' type='submit'>
+                                                <BsSendCheck size={20} />
+                                            </button>
+                                        )}
+                                    </div>
+                                </form>
+                            )
+                        }
 
                         {postInfo.map(data => <PostCard key={data._id} data={data} />)}
                     </div>

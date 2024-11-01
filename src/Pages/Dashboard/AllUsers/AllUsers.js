@@ -44,6 +44,29 @@ const AllUsers = () => {
       })
   }
 
+
+
+  const handleDeleteUser = (id) => {
+    fetch(`http://localhost:5000/users/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: `bearer ${localStorage.getItem('accessToken')}`
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.deletedCount > 0) {
+          toast.success('User deleted successfully.');
+          refetch(); // Refresh the list of users
+        } else {
+          toast.error('Failed to delete user.');
+        }
+      })
+      .catch(error => {
+        toast.error('An error occurred while deleting the user.');
+      });
+  };
+
   return (
     <div className='min-h-screen my-10 px-5'>
       <h2 className="text-2xl mb-5 font-bold">All Users - {users?.length}</h2>
@@ -70,10 +93,11 @@ const AllUsers = () => {
 
                 <td>{user?.role !== 'doctor' && <button onClick={() => handleMakeDoctor(user._id)} className='btn btn-xs btn-primary'>Make Doctor</button>}</td>
 
-                <td><button className='btn btn-xs btn-danger'>Delete</button></td>
+                <td>
+                  <button onClick={() => handleDeleteUser(user._id)} className='btn btn-xs btn-danger'>Delete</button>
+                </td>
               </tr>)
             }
-
           </tbody>
         </table>
       </div>

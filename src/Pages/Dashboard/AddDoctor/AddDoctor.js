@@ -2,167 +2,137 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Loading from '../../Shared/Loading/Loading';
 import { AuthContext } from '../../../contexts/AuthProvider';
-import useToken from '../../../hooks/useToken';
 
 const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
-    const navigate = useNavigate();
     const { createUser, updateUser } = useContext(AuthContext);
-    const [signUpError, setSignUPError] = useState('');
-    const [createdUserEmail, setCreatedUserEmail] = useState('')
-    const [token] = useToken(createdUserEmail);
+    const [signUpError, setSignUpError] = useState('');
+    const [createdUserEmail, setCreatedUserEmail] = useState('');
 
-    const { data: specialties, isLoading } = useQuery({
+    // Fetch specialties for the dropdown
+    const { data: specialties = [], isLoading } = useQuery({
         queryKey: ['specialty'],
         queryFn: async () => {
             const res = await fetch('http://localhost:5000/appointmentSpecialty');
-            const data = await res.json();
-            return data;
+            return res.json();
         }
-    })
+    });
 
-    const handleAddDoctor = data => {
-        const image = data.image[0];
-        const formData = new FormData();
-        formData.append('image', image);
-        const url = `https://api.imgbb.com/1/upload?key=${imageHostKey}`
-        fetch(url, {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(imgData => {
-                if (imgData.success) {
-                    console.log(imgData.data.url);
-                    const doctor = {
-                        name: data.name,
-                        email: data.email,
-                        specialty: data.specialty,
-                        image: imgData.data.url
-                    }
+    // Handle form submission
+    const handleLogin = async (data, event) => {
+        event.preventDefault();
+        // setSignUpError(''); // Reset error message
 
-                    // save doctor information to the database
-                    fetch('http://localhost:5000/doctors', {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json',
-                            authorization: `bearer ${localStorage.getItem('accessToken')}`
-                        },
-                        body: JSON.stringify(doctor)
-                    })
-                        .then(res => res.json())
-                        .then(result => {
-                            console.log(result);
-                            toast.success(`${data.name} is added successfully`);
-                            navigate('/dashboard/managedoctors')
-                        })
-                }
-            })
-    }
-
-
-
-
-    const handleSignUp = (data) => {
-        setSignUPError('');
-        createUser(data.email, data.password)
-            .then(result => {
-                const user = result.user;
-                console.log(user);
-                toast('User Created Successfully.')
-                const userInfo = {
-                    displayName: data.name
-                }
-                updateUser(userInfo)
-                    .then(() => {
-                        saveUser(data.name, data.email);
-                    })
-                    .catch(err => console.log(err));
-            })
-            .catch(error => {
-                console.log(error)
-                setSignUPError(error.message)
+        try {
+            // Upload image to imgbb
+            const image = data.image[0];
+            const formData = new FormData();
+            formData.append('image', image);
+            const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${imageHostKey}`, {
+                method: 'POST',
+                body: formData,
             });
-    }
+            const imgData = await imgRes.json();
 
+            if (imgData.success) {
+                const doctorData = {
+                    name: data.name,
+                    email: data.email,
+                    specialty: data.specialty,
+                    image: imgData.data.url,
+                    role: 'doctor',
+                };
 
-    const saveUser = (name, email) => {
-        const user = { name, email };
-        fetch('http://localhost:5000/users', {
+                // Create user in Firebase
+                const userRes = await createUser(data.email, data.password);
+                const user = userRes.user;
+                toast('User Created Successfully.');
+
+                // Update Firebase display name
+                // await updateUser({ displayName: data.name });
+
+                // Save user with role to database
+                await saveUser(doctorData);
+            }
+        } catch (error) {
+            console.error(error);
+            // setSignUpError(error.message);
+        }
+    };
+
+    // Save user data with role in the database
+    const saveUser = async (doctor) => {
+        const response = await fetch('http://localhost:5000/users', {
             method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .then(data => {
-                setCreatedUserEmail(email);
-            })
-    }
-
-
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(doctor),
+        });
+        return response.json();
+    };
 
     if (isLoading) {
-        return <Loading></Loading>
+        return <div>Loading...</div>; // Or any loading component
     }
 
     return (
         <div className='w-96 p-7 min-h-screen'>
-            <h2 className="text-4xl">Add A Doctor</h2>
-            <form onSubmit={handleSubmit(handleAddDoctor)}>
+            <h2 className="text-4xl">Doctor Registration</h2>
+            <form onSubmit={handleSubmit(handleLogin)}>
                 <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Name</span></label>
-                    <input type="text" {...register("name", {
-                        required: "Name is Required"
-                    })} className="input input-bordered w-full max-w-xs" />
+                    <label className="label"><span className="label-text">Name</span></label>
+                    <input
+                        type="text"
+                        {...register("name", { required: "Name is Required" })}
+                        className="input input-bordered w-full max-w-xs"
+                    />
                     {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
                 </div>
                 <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Email</span></label>
-                    <input type="email" {...register("email", {
-                        required: true
-                    })} className="input input-bordered w-full max-w-xs" />
+                    <label className="label"><span className="label-text">Email</span></label>
+                    <input
+                        type="email"
+                        {...register("email", { required: "Email is Required" })}
+                        className="input input-bordered w-full max-w-xs"
+                    />
                     {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
                 </div>
                 <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Specialty</span></label>
-                    <select
-                        {...register('specialty')}
-                        className="select input-bordered w-full max-w-xs">
-                        {
-                            specialties.map(specialty => <option
-                                key={specialty._id}
-                                value={specialty.name}
-                            >{specialty.name}</option>)
-                        }
-
-
+                    <label className="label"><span className="label-text">Password</span></label>
+                    <input
+                        type="password"
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: { value: 6, message: "Password must be at least 6 characters long" },
+                            pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/, message: "Password must include uppercase, number, and special character" }
+                        })}
+                        className="input input-bordered w-full max-w-xs"
+                    />
+                    {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+                </div>
+                <div className="form-control w-full max-w-xs">
+                    <label className="label"><span className="label-text">Specialty</span></label>
+                    <select {...register('specialty')} className="select input-bordered w-full max-w-xs">
+                        {specialties.map(specialty => (
+                            <option key={specialty._id} value={specialty.name}>{specialty.name}</option>
+                        ))}
                     </select>
                 </div>
                 <div className="form-control w-full max-w-xs">
-                    <label className="label"> <span className="label-text">Photo</span></label>
-                    <input type="file" {...register("image", {
-                        required: "Photo is Required"
-                    })} className="input input-bordered w-full max-w-xs" />
-                    {errors.img && <p className='text-red-500'>{errors.img.message}</p>}
+                    <label className="label"><span className="label-text">Photo</span></label>
+                    <input
+                        type="file"
+                        {...register("image", { required: "Photo is Required" })}
+                        className="input input-bordered w-full max-w-xs"
+                    />
+                    {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
                 </div>
-                <input className='btn btn-accent w-full mt-4' value="Add Doctor" type="submit" />
+                <input className='btn btn-accent w-full mt-4' value="Register as Doctor" type="submit" />
+                {/* {signUpError && <p className='text-red-600'>{signUpError}</p>} */}
             </form>
         </div>
     );
 };
-
-
-/**
- * Three places to store images
- * 1. Third party image hosting server 
- * 2. File system of your server
- * 3. mongodb (database)
-*/
 
 export default AddDoctor;

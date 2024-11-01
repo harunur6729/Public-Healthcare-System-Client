@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BiCommentDetail, BiLike } from 'react-icons/bi';
 import { BsEmojiHeartEyes, BsSend } from 'react-icons/bs';
 import { FaUserCircle } from 'react-icons/fa';
 import { RiShareForwardLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
 
 const PostCard = (data) => {
-
-    // console.log("data", data);
+    const { user, mongoUser } = useContext(AuthContext);
     const { _id, image, profileImg, userName, description, userEmail, postTime } = data.data;
 
     return (

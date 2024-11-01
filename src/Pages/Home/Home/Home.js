@@ -17,15 +17,12 @@ import useDoctor from '../../../hooks/useDoctor';
 
 const Home = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { user } = useContext(AuthContext);
+    const { user, mongoUser } = useContext(AuthContext);
     const [isAdmin] = useAdmin(user?.email);
     const [isDoctor] = useDoctor(user?.email);
     const [image, setImage] = useState(null);
     const [postInfo, setPostInfo] = useState([]);
     const [isPosting, setIsPosting] = useState(false);
-
-
-    console.log(isDoctor, "isDoctor ?");
 
     useEffect(() => {
         fetch('http://localhost:5000/posts')
@@ -112,10 +109,10 @@ const Home = () => {
                             (isDoctor || isAdmin) && (
                                 <form className='p-2 nm_Container' onSubmit={handleSubmit(handleItem)}>
                                     <div className={homeCSS.createPostInput}>
-                                        {user?.photoURL ? (
+                                        {mongoUser?.photoURL ? (
                                             <img
                                                 className="w-[35px] rounded-full mr-[10px] border-2 p-1"
-                                                src={user.photoURL}
+                                                src={mongoUser?.photoURL}
                                                 alt="user"
                                             />
                                         ) : (

@@ -80,7 +80,7 @@ const ManageDoctors = () => {
                                         <div className="flex items-center">
                                             <div className="avatar">
                                                 <div className="w-16 h-16 rounded-full overflow-hidden">
-                                                    <img src={doctor.image} alt={doctor.name} className="object-cover" />
+                                                    <img src={doctor.photoURL} alt={doctor.name} className="object-cover" />
                                                 </div>
                                             </div>
                                         </div>

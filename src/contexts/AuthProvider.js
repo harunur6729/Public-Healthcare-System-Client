@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import app from '../firebase/firebase.config';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 const auth = getAuth(app)
@@ -8,6 +9,20 @@ const auth = getAuth(app)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [mongoUser, setMongoUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/user/mongo?email=${user?.email}`);
+                setMongoUser(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUserData();
+    }, [user?.email]);
+
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -38,12 +53,15 @@ const AuthProvider = ({ children }) => {
         return () => unsubscribe();
     }, [])
 
+
+
     const authInfo = {
         createUser,
         signIn,
         updateUser,
         logOut,
         user,
+        mongoUser,
         loading
     }
     return (

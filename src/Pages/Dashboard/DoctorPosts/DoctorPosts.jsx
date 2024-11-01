@@ -15,6 +15,7 @@ const DoctorPosts = () => {
     useEffect(() => {
         (async () => {
             const res = await axios.get(`http://localhost:5000/emailPosts?email=${user?.email}`);
+
             setPosts(res.data);
         })();
     }, [user?.email]);

@@ -29,7 +29,7 @@ const ConversationPage = () => {
     }, [userEmail]);
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container min-h-screen mx-auto p-4">
             <h2 className="text-2xl font-semibold text-center mb-6">Conversations</h2>
             {conversations.map((conversation, index) => (
                 <div key={index} className="bg-white rounded-lg shadow-md p-4 mb-4">

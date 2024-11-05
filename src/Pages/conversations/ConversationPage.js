@@ -32,7 +32,7 @@ const ConversationPage = () => {
         <div className="container min-h-screen mx-auto p-4">
             <h2 className="text-2xl font-semibold text-center mb-6">Conversations</h2>
             {conversations.map((conversation, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-md p-4 mb-4">
+                <div key={index} className="bg-white rounded-lg shadow-md p-4 mb-4 nm_Container">
                     <h3 className="font-semibold text-lg mb-2">Participants:</h3>
                     <ul className="list-disc list-inside mb-4">
                         {conversation.participants.map((participant, i) => (

@@ -51,7 +51,7 @@ const AddDoctor = () => {
                 toast('User Created Successfully.');
 
                 // Update Firebase display name
-                // await updateUser({ displayName: data.name });
+                await updateUser({ displayName: data.name });
 
                 // Save user with role to database
                 await saveUser(doctorData);

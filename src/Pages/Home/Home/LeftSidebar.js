@@ -9,15 +9,15 @@ import { FaUserCircle } from 'react-icons/fa';
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 
 const LeftSidebar = () => {
-    const { user } = useContext(AuthContext);
+    const { user, mongoUser } = useContext(AuthContext);
 
     return (
-        <div className='basis-full lg:basis-1/4 self-start relative lg:sticky top-[76px]'>
+        <div className='basis-full lg:basis-1/4 self-start lg:sticky top-0 lg:top-[76px] mb-5 lg:mb-0'>
             <div className='nm_Container'>
                 <img src={imgCover} alt="cover" width="100%" />
                 <div className='px-5'>
-                    {user?.photoURL ? (
-                        <img className='w-20 bg-primary rounded-full -mt-9 p-[1px] border-2 border-secondary' src={user?.photoURL} alt="profile" />
+                    {mongoUser?.photoURL ? (
+                        <img className='w-16 rounded-full -mt-9 p-[3px] border-2 border-white' src={mongoUser?.photoURL} alt="profile" />
                     ) : (
                         <FaUserCircle className='rounded-full -mt-4 p-[1px] border-2 border-secondary text-primary' size={50} />
                     )}

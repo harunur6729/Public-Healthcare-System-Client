@@ -10,9 +10,7 @@ import InfoCards from '../Home/InfoCards/InfoCards';
 import Services from '../Home/Services/Services';
 import Testimonial from '../Home/Testimonial/Testimonial';
 
-
 const About = () => {
-
     const categoryClass = "bg-[#F9F9F9] text-[#4444d8] py-2 px-4 rounded-full hover:text-white hover:bg-blue-900 transition duration-300 ease-in-out"
 
     const checkAvailability = [

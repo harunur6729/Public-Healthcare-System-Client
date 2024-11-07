@@ -8,8 +8,6 @@ const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
     const { createUser, updateUser } = useContext(AuthContext);
-    const [signUpError, setSignUpError] = useState('');
-    const [createdUserEmail, setCreatedUserEmail] = useState('');
 
     // Fetch specialties for the dropdown
     const { data: specialties = [], isLoading } = useQuery({
@@ -51,10 +49,13 @@ const AddDoctor = () => {
                 toast('User Created Successfully.');
 
                 // Update Firebase display name
-                await updateUser({ displayName: data.name });
+                await updateUser({
+                    displayName: data.name, photoURL: imgData.data.url
+                });
 
                 // Save user with role to database
                 await saveUser(doctorData);
+                await UpdateDoctorUser(doctorData);
             }
         } catch (error) {
             console.error(error);
@@ -71,6 +72,36 @@ const AddDoctor = () => {
         });
         return response.json();
     };
+
+    // Save user data with role in the database
+    const UpdateDoctorUser = async (doctor) => {
+        try {
+            const response = await fetch('http://localhost:5000/v2/updateAppointmentOptions', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    specialty: doctor.specialty,
+                    doctorName: doctor.name,
+                    doctorPhoto: doctor.photoURL,
+                }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                toast.success('Appointment options updated successfully!');
+            } else {
+                toast.error(result.message || 'Failed to update appointment options.');
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Error updating appointment options:', error);
+            toast.error('An error occurred while updating appointment options.');
+            throw error;
+        }
+    };
+
 
     if (isLoading) {
         return <div>Loading...</div>; // Or any loading component

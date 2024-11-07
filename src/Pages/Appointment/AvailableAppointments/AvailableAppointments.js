@@ -5,11 +5,11 @@ import loading from '../../../assets/docAppLoading.json';
 import BookingModal from '../BookingModal/BookingModal';
 import AppointmentOption from './AppointmentOption';
 import Lottie from 'lottie-react';
-// import Loading from '../../Shared/Loading/Loading';
 
 const AvailableAppointments = ({ selectedDate }) => {
     const [treatment, setTreatment] = useState(null);
     const date = format(selectedDate, 'PP');
+
     const { data: appointmentOptions = [], refetch, isLoading } = useQuery({
         queryKey: ['appointmentOptions', date],
         queryFn: async () => {
@@ -19,9 +19,6 @@ const AvailableAppointments = ({ selectedDate }) => {
         }
     });
 
-    // if (isLoading) {
-    //     return <Loading></Loading>
-    // }
 
 
     if (isLoading) {

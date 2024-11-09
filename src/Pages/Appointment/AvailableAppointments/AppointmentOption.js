@@ -4,7 +4,7 @@ const AppointmentOption = ({ appointmentOption, setTreatment }) => {
     const { name, price, slots, doctorName, doctorPhoto } = appointmentOption;
 
     return (
-        <div className="card nm_Container">
+        <div className="card nm_Container h-fit">
             <div className="card-body text-center">
                 {
                     doctorName && (

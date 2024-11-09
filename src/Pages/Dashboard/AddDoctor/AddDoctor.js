@@ -1,13 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import useToken from '../../../hooks/useToken';
+import { useNavigate } from 'react-router-dom';
 
 const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
     const { createUser, updateUser } = useContext(AuthContext);
+    const [createdUserEmail, setCreatedUserEmail] = useState('')
+
+    const [token] = useToken(createdUserEmail);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token) {
+            navigate('/');
+        }
+    }, [token, navigate]);
 
     // Fetch specialties for the dropdown
     const { data: specialties = [], isLoading } = useQuery({
@@ -21,7 +33,6 @@ const AddDoctor = () => {
     // Handle form submission
     const handleLogin = async (data, event) => {
         event.preventDefault();
-        // setSignUpError(''); // Reset error message
 
         try {
             // Upload image to imgbb
@@ -54,12 +65,11 @@ const AddDoctor = () => {
                 });
 
                 // Save user with role to database
-                await saveUser(doctorData);
                 await UpdateDoctorUser(doctorData);
+                await saveUser(doctorData);
             }
         } catch (error) {
             console.error(error);
-            // setSignUpError(error.message);
         }
     };
 
@@ -69,7 +79,11 @@ const AddDoctor = () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(doctor),
-        });
+        })
+            .then(res => res.json())
+            .then(data => {
+                setCreatedUserEmail(doctor?.email);
+            })
         return response.json();
     };
 
@@ -111,6 +125,7 @@ const AddDoctor = () => {
         <div className='w-96 p-7 min-h-screen'>
             <h2 className="text-4xl">Doctor Registration</h2>
             <form onSubmit={handleSubmit(handleLogin)}>
+
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Name</span></label>
                     <input
@@ -120,6 +135,7 @@ const AddDoctor = () => {
                     />
                     {errors.name && <p className='text-red-500'>{errors.name.message}</p>}
                 </div>
+
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Email</span></label>
                     <input
@@ -129,6 +145,7 @@ const AddDoctor = () => {
                     />
                     {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
                 </div>
+
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Password</span></label>
                     <input
@@ -142,6 +159,7 @@ const AddDoctor = () => {
                     />
                     {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
                 </div>
+
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Specialty</span></label>
                     <select {...register('specialty')} className="select input-bordered w-full max-w-xs">
@@ -150,6 +168,7 @@ const AddDoctor = () => {
                         ))}
                     </select>
                 </div>
+
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Photo</span></label>
                     <input
@@ -159,8 +178,8 @@ const AddDoctor = () => {
                     />
                     {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
                 </div>
+
                 <input className='btn btn-accent w-full mt-4' value="Register as Doctor" type="submit" />
-                {/* {signUpError && <p className='text-red-600'>{signUpError}</p>} */}
             </form>
         </div>
     );

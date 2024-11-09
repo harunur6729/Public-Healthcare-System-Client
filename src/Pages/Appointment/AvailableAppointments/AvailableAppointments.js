@@ -19,8 +19,6 @@ const AvailableAppointments = ({ selectedDate }) => {
         }
     });
 
-
-
     if (isLoading) {
         return <div className='h-[500px] w-[500px] mx-auto'>
             <Lottie animationData={loading} loop={true} />

@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import useToken from '../../hooks/useToken';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const { signIn } = useContext(AuthContext);
+    const { signIn, loginInWithGoogle } = useContext(AuthContext);
     const [loginError, setLoginError] = useState('');
     const [loginUserEmail, setLoginUserEmail] = useState('');
     const [token] = useToken(loginUserEmail);
@@ -18,6 +19,18 @@ const Login = () => {
     if (token) {
         navigate(from, { replace: true });
     }
+
+    const googleProvider = new GoogleAuthProvider();
+    const googleSignIn = () => {
+        loginInWithGoogle(googleProvider)
+            .then((result) => {
+                const user = result.user;
+                navigate(from, { replace: true });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     const handleLogin = data => {
         console.log(data);
@@ -68,7 +81,7 @@ const Login = () => {
                     New here? <Link className="text-secondary" to="/signup">Create an Account</Link>
                 </p>
                 <div className="divider">OR</div>
-                <button className="btn btn-outline w-full">Continue with Google</button>
+                <button onClick={googleSignIn} className="btn btn-outline w-full">Continue with Google</button>
 
             </div>
         </div>

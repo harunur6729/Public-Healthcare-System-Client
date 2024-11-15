@@ -1,10 +1,14 @@
 import React, { useContext } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import useAdmin from '../../../hooks/useAdmin';
+import useDoctor from '../../../hooks/useDoctor';
 
 
 const Dashboard = () => {
     const { user, mongoUser } = useContext(AuthContext);
+    const [isAdmin] = useAdmin(user?.email);
+    const [isDoctor] = useDoctor(user?.email);
 
     console.log(user, "user");
     console.log(mongoUser, "mongoUser");
@@ -27,7 +31,7 @@ const Dashboard = () => {
                             )}
                             <div className="ml-4">
                                 <h3 className="text-xl font-semibold text-gray-800">{user ? user.displayName : mongoUser.name}</h3>
-                                <p className="text-gray-600">{mongoUser ? mongoUser.role : "User"}</p>
+                                <p className="text-gray-600">{isAdmin ? "Admin" : isDoctor ? "Doctor" : "User"}</p>
                             </div>
                         </div>
                         <button className="mt-4 w-full bg-primary text-white py-2 rounded-md hover:bg-secondary">

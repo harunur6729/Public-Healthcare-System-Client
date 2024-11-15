@@ -76,23 +76,23 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/myAppointment',
-                element: <MyAppointment></MyAppointment>
+                element: <MyAppointment />
             },
             {
                 path: '/dashboard/allUsers',
-                element: <AdminRoute><AllUsers /></AdminRoute>
+                element: <AllUsers />
             },
             {
                 path: '/dashboard/addDoctor',
-                element: <AdminRoute><AddDoctor /></AdminRoute>
+                element: <AddDoctor />
             },
             {
                 path: '/dashboard/manageDoctors',
-                element: <AdminRoute><ManageDoctors /></AdminRoute>
+                element: <ManageDoctors />
             },
             {
                 path: '/dashboard/doctorPosts',
-                element: <PrivateRoute><DoctorPosts /></PrivateRoute>
+                element: <DoctorPosts />
             },
             {
                 path: '/dashboard/payment/:id',

@@ -5,33 +5,39 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import useToken from '../../../hooks/useToken';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
     const { createUser, updateUser } = useContext(AuthContext);
     const [createdUserEmail, setCreatedUserEmail] = useState('')
+    const [specialties, setSpecialties] = useState([]);
 
-    const [token] = useToken(createdUserEmail);
-    const navigate = useNavigate();
+    // const [token] = useToken(createdUserEmail);
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        if (token) {
-            navigate('/');
-        }
-    }, [token, navigate]);
+    // useEffect(() => {
+    //     if (token) {
+    //         navigate('/');
+    //     }
+    // }, [token, navigate]);
 
     // Fetch specialties for the dropdown
-    const { data: specialties = [], isLoading } = useQuery({
-        queryKey: ['specialty'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appointmentSpecialty');
-            return res.json();
-        }
-    });
+    useEffect(() => {
+        const fetchSpecialties = async () => {
+            try {
+                const res = await axios.get('http://localhost:5000/appointmentSpecialty');
+                setSpecialties(res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchSpecialties();
+    }, []);
 
     // Handle form submission
-    const handleLogin = async (data, event) => {
+    const handleSubmitData = async (data, event) => {
         event.preventDefault();
 
         try {
@@ -82,7 +88,7 @@ const AddDoctor = () => {
         })
             .then(res => res.json())
             .then(data => {
-                setCreatedUserEmail(doctor?.email);
+                // setCreatedUserEmail(doctor?.email);
             })
         return response.json();
     };
@@ -116,15 +122,10 @@ const AddDoctor = () => {
         }
     };
 
-
-    if (isLoading) {
-        return <div>Loading...</div>; // Or any loading component
-    }
-
     return (
-        <div className='w-96 p-7 min-h-screen'>
-            <h2 className="text-4xl">Doctor Registration</h2>
-            <form onSubmit={handleSubmit(handleLogin)}>
+        <div className='w-96 my-10 px-5 min-h-screen'>
+            <h2 className="text-2xl font-bold">Doctor Registration</h2>
+            <form onSubmit={handleSubmit(handleSubmitData)}>
 
                 <div className="form-control w-full max-w-xs">
                     <label className="label"><span className="label-text">Name</span></label>
@@ -174,12 +175,12 @@ const AddDoctor = () => {
                     <input
                         type="file"
                         {...register("image", { required: "Photo is Required" })}
-                        className="input input-bordered w-full max-w-xs"
+                        className="input input-bordered w-full max-w-xs px-4 py-2"
                     />
                     {errors.image && <p className='text-red-500'>{errors.image.message}</p>}
                 </div>
 
-                <input className='btn btn-accent w-full mt-4' value="Register as Doctor" type="submit" />
+                <input className='btn btn-accent w-full max-w-xs mt-4' value="Register as Doctor" type="submit" />
             </form>
         </div>
     );

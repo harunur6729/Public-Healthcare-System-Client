@@ -10,7 +10,7 @@ import axios from 'axios';
 const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const imageHostKey = process.env.REACT_APP_imgbb_key;
-    const { createUser, updateUser } = useContext(AuthContext);
+    const { createUser, updateUser, signIn } = useContext(AuthContext);
     const [createdUserEmail, setCreatedUserEmail] = useState('')
     const [specialties, setSpecialties] = useState([]);
 
@@ -29,9 +29,7 @@ const AddDoctor = () => {
             try {
                 const res = await axios.get('http://localhost:5000/appointmentSpecialty');
                 setSpecialties(res.data);
-            } catch (err) {
-                console.log(err);
-            }
+            } catch (err) { console.log(err); }
         };
         fetchSpecialties();
     }, []);
@@ -61,13 +59,12 @@ const AddDoctor = () => {
                 };
 
                 // Create user in Firebase
-                const userRes = await createUser(data.email, data.password);
-                const user = userRes.user;
+                await createUser(data?.email, data?.password);
                 toast('User Created Successfully.');
 
                 // Update Firebase display name
                 await updateUser({
-                    displayName: data.name, photoURL: imgData.data.url
+                    displayName: data?.name, photoURL: imgData?.data?.url
                 });
 
                 // Save user with role to database

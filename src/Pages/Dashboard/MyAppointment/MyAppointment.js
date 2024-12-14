@@ -8,7 +8,7 @@ const MyAppointment = () => {
 
     console.log(user?.email, "user Email from my appointment");
 
-    const url = `https://doc-app-server.vercel.app/bookings?email=${user?.email}`;
+    const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     const { data: bookings = [] } = useQuery({
         queryKey: ['bookings', user?.email],
@@ -24,6 +24,42 @@ const MyAppointment = () => {
 
 
     console.log(bookings, "bookings data");
+
+
+    // Payment method :
+    const handleFormSubmit = async (event, price) => {
+        event.preventDefault();
+
+        const paymentList = {
+            price, // Add the passed booking price
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/order", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(paymentList),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to initiate payment");
+            }
+
+            const result = await response.json();
+
+            if (result?.url) {
+                // Redirect to SSLCommerz payment page
+                window.location.replace(result.url);
+            } else {
+                console.error("Invalid payment URL", result);
+                alert("Payment URL not found. Please try again.");
+            }
+        } catch (error) {
+            console.error("Payment initiation error:", error);
+            alert("Error initiating payment. Please check the console for details.");
+        }
+    };
+
 
     return (
         <div className='min-h-screen my-10 px-5'>
@@ -50,15 +86,23 @@ const MyAppointment = () => {
                                 <td>{booking.appointmentDate}</td>
                                 <td>{booking.slot}</td>
                                 <td>
-                                    {
-                                        booking.price && !booking.paid && <Link
-                                            to={`/dashboard/payment/${booking._id}`}
-                                        >
-                                            <button
-                                                className='btn btn-primary btn-sm'
-                                            >Pay</button>
-                                        </Link>
-                                    }
+                                    {booking.price && !booking.paid && (
+                                        <>
+                                            <div className='flex'>
+                                                <form
+                                                    onSubmit={(event) => handleFormSubmit(event, booking.price)}
+                                                >
+                                                    <button type="submit" className="btn btn-primary btn-sm mr-2">
+                                                        SSL
+                                                    </button>
+                                                </form>
+                                                <Link to={`/dashboard/payment/${booking._id}`}>
+                                                    <button className="btn btn-primary btn-sm">Card</button>
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+
                                     {
                                         booking.price && booking.paid && <span className='text-green-500'>Paid</span>
                                     }
@@ -68,7 +112,7 @@ const MyAppointment = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 

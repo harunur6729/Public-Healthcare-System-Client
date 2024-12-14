@@ -25,7 +25,7 @@ const Home = () => {
     const [isPosting, setIsPosting] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/posts')
+        fetch('https://public-healthcare-system-server.vercel.app/posts')
             .then(res => res.json())
             .then(data => setPostInfo(data));
     }, []);
@@ -70,7 +70,7 @@ const Home = () => {
             postTime: currentTime,
         };
 
-        fetch(`http://localhost:5000/posts`, {
+        fetch(`https://public-healthcare-system-server.vercel.app/posts`, {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(itemInfo)

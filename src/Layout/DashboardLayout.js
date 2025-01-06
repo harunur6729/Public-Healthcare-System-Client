@@ -22,9 +22,9 @@ const DashboardLayout = () => {
                     <ul className="menu p-4 w-80 text-base-content space-y-1">
                         {
                             // Only show "My Appointments" if the user is neither an admin nor a doctor
-                            !(isDoctor || isAdmin) && (
+                            
                                 <li><Link to="/dashboard/myAppointment">My Appointments</Link></li>
-                            )
+                            
                         }
                         {
                             // Only show doctor-specific link if the user is a doctor
